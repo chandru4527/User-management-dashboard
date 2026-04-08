@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Users Table</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-900 text-white min-h-screen p-4 sm:p-6 md:p-8">
+
+  <div class="max-w-6xl mx-auto">
+
+    <h1 class="text-2xl sm:text-3xl font-bold mb-6">User Management</h1>
+
+    <!-- TABLE (Desktop) -->
+    <div class="hidden md:block overflow-x-auto bg-gray-800 rounded-2xl shadow-lg">
+      <table class="w-full text-left">
+        
+        <thead class="bg-gray-700 text-gray-300 text-sm uppercase">
+          <tr>
+            <th class="p-4">ID</th>
+            <th class="p-4">Name</th>
+            <th class="p-4">Email</th>
+            <th class="p-4">Role</th>
+            <th class="p-4">Status</th>
+            <th class="p-4">Action</th>
+          </tr>
+        </thead>
+
+        <tbody id="tbody" class="divide-y divide-gray-700"></tbody>
+
+      </table>
+    </div>
+
+    <!-- MOBILE CARDS -->
+    <div id="mobileContainer" class="grid gap-4 md:hidden"></div>
+
+  </div>
+
+  <script>
+    const users = [
+      { id: 1, name: "Abi Jey", email: "abijey@gmail.com", role: "admin", isActive: true },
+      { id: 2, name: "Ravi Kumar", email: "ravi@gmail.com", role: "user", isActive: false },
+      { id: 3, name: "Sneha Sharma", email: "sneha@gmail.com", role: "user", isActive: false },
+      { id: 4, name: "Arjun Patel", email: "arjun@gmail.com", role: "manager", isActive: true }
+    ];
+
+    const tbody = document.getElementById("tbody");
+    const mobileContainer = document.getElementById("mobileContainer");
+
+    users.forEach(user => {
+
+      // DESKTOP TABLE ROW
+      const row = document.createElement("tr");
+      row.className = "hover:bg-gray-700 transition";
+
+      row.innerHTML = `
+        <td class="p-4">${user.id}</td>
+        <td class="p-4 font-semibold">${user.name}</td>
+        <td class="p-4 text-gray-300">${user.email}</td>
+        <td class="p-4 capitalize">${user.role}</td>
+        <td class="p-4">
+          <span class="px-3 py-1 rounded-full text-sm font-semibold
+            ${user.isActive 
+              ? "bg-green-500/20 text-green-400" 
+              : "bg-red-500/20 text-red-400"}">
+            ${user.isActive ? "Active" : "Inactive"}
+          </span>
+        </td>
+        <td class="p-4 flex flex-wrap gap-2">
+          <button class="px-3 py-1 bg-blue-600 rounded-lg hover:bg-blue-500 text-sm w-full sm:w-auto">
+            Edit
+          </button>
+          <button class="px-3 py-1 bg-red-600 rounded-lg hover:bg-red-500 text-sm w-full sm:w-auto">
+            Delete
+          </button>
+        </td>
+      `;
+
+      tbody.appendChild(row);
+
+      // MOBILE CARD
+      const card = document.createElement("div");
+
+      card.className = `
+        bg-gray-800 p-4 rounded-xl shadow 
+        flex flex-col gap-2
+      `;
+
+      card.innerHTML = `
+        <div class="flex justify-between items-center">
+          <h2 class="font-semibold">${user.name}</h2>
+          <span class="text-xs px-2 py-1 rounded-full
+            ${user.isActive 
+              ? "bg-green-500/20 text-green-400" 
+              : "bg-red-500/20 text-red-400"}">
+            ${user.isActive ? "Active" : "Inactive"}
+          </span>
+        </div>
+
+        <p class="text-sm text-gray-400">ID: ${user.id}</p>
+        <p class="text-sm text-gray-400">${user.email}</p>
+        <p class="text-sm capitalize">${user.role}</p>
+
+        <div class="flex gap-2 mt-2">
+          <button class="flex-1 py-1 bg-blue-600 rounded-lg text-sm cursor-pointerr-">
+            Edit
+          </button>
+          <button class="flex-1 py-1 bg-red-600 rounded-lg text-sm cursor-pointer">
+            Delete
+          </button>
+        </div>
+      `;
+
+      mobileContainer.appendChild(card);
+
+    });
+  </script>
+
+</body>
+</html>
